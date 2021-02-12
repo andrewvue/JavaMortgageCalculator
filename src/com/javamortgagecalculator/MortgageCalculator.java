@@ -1,6 +1,19 @@
 package com.javamortgagecalculator;
 
 public class MortgageCalculator {
+    //Create private fields that can only be accessed by MortgageCalculator class
+    //This reduces code redundancy
+    private int principal;
+    private float annualInterest;
+    private byte years;
+
+    //Create a constructor so we can use these fields
+    public MortgageCalculator(int principal, float annualInterest, byte years) {
+        this.principal = principal;
+        this.annualInterest = annualInterest;
+        this.years = years;
+    }
+
     public static double calculateBalance(
             int principal,
             float annualInterest,
