@@ -1,10 +1,11 @@
 package com.javamortgagecalculator;
 
 public class MortgageCalculator {
-    //Reduce duplicated logic
-    public final static byte MONTHS_IN_YEAR = 12;
-    public final static byte PERCENT = 100;
     //Create private fields that can only be accessed by MortgageCalculator class
+    //Static fields
+    private final static byte MONTHS_IN_YEAR = 12;
+    private final static byte PERCENT = 100;
+
     //This reduces code redundancy
     //These fields are the state of our class
     private int principal;
@@ -19,8 +20,8 @@ public class MortgageCalculator {
     }
 //Turn the static methods into an instance Methods so we can access the private fields
     public double calculateBalance(short numberOfPaymentsMade) {
-        float monthlyInterest = annualInterest / PERCENT / MONTHS_IN_YEAR;
-        float numberOfPayments = years * MONTHS_IN_YEAR;
+        float monthlyInterest = getMonthlyInterest();
+        float numberOfPayments = getNumberOfPayments();
 
         double balance = principal
                 * (Math.pow(1 + monthlyInterest, numberOfPayments) - Math.pow(1 + monthlyInterest, numberOfPaymentsMade))
@@ -31,8 +32,8 @@ public class MortgageCalculator {
 
     public double calculateMortgage() {
 
-        float monthlyInterest = annualInterest / PERCENT / MONTHS_IN_YEAR;
-        float numberOfPayments = years * MONTHS_IN_YEAR;
+        float monthlyInterest = getMonthlyInterest();
+        float numberOfPayments = getNumberOfPayments();
 
         double mortgage = principal
                 * (monthlyInterest * Math.pow(1 + monthlyInterest, numberOfPayments))
@@ -40,8 +41,25 @@ public class MortgageCalculator {
 
         return mortgage;
     }
+//Create an array to hold our balances after each payment
 
-    public short getYears() {
-        return years;
+    public double[] getRemainingBalances(){
+        var balances = new double[getNumberOfPayments()];
+        for (short month = 1; month <= balances.length; month++)
+            balances[month - 1] = calculateBalance(month);
+        return balances;
     }
+//Create private getter methods to reduce repeated code -implementation detail needs to be private-
+//Reduces duplicated logic
+    private float getMonthlyInterest() {
+        return annualInterest / PERCENT / MONTHS_IN_YEAR;
+    }
+
+    private int getNumberOfPayments() {
+        return years * MONTHS_IN_YEAR;
+    }
+//This is public because other classes need to use this getter, but not necessary anymore because it isn't used
+//    public short getYears() {
+//        return years;
+//    }
 }

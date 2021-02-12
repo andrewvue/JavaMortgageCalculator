@@ -15,13 +15,11 @@ public class MortgageReport {
     public void printPaymentSchedule() {
         System.out.println();
         System.out.println("PAYMENT SCHEDULE");
-        System.out.println("----------------");
-        //Create a getter for getYears in order to calculate the years pulling form MortgageCalculator Class
-        for (short month = 1; month <= calculator.getYears() * MortgageCalculator.MONTHS_IN_YEAR; month++) {
-            double balance = calculator.calculateBalance(month);
+        System.out.println("====================");
+        //use the array balance and iterate through it and print out each remaining balance
+        for (double balance : calculator.getRemainingBalances())
             System.out.println(NumberFormat.getCurrencyInstance().format(balance));
         }
-    }
 
     //Use an instance Method so that we can reuse this method
     public void printMortgage() {
@@ -29,7 +27,7 @@ public class MortgageReport {
         String mortgageFormatted = NumberFormat.getCurrencyInstance().format(mortgage);
         System.out.println();
         System.out.println("MORTGAGE");
-        System.out.println("--------");
+        System.out.println("==============");
         System.out.println("Monthly Payments: " + mortgageFormatted);
     }
 }
